@@ -23,7 +23,8 @@ router.get('/search/:text', async (req, res) => {
     const data = users.map((user: FullUser) => {
       return {
         user_id: user.id,
-        screen_name: user.screen_name
+        screen_name: user.screen_name,
+        profile_image_url_https: user.profile_image_url_https
       }
     })
 

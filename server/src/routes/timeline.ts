@@ -14,10 +14,14 @@ router.get('/:userId', async (req, res) => {
       access_token_secret: ACCESS_TOKEN_SECRET
     });
 
-    const data = await client.get("statuses/user_timeline", {
-      user_id: userId
+    const timeline = await client.get("statuses/user_timeline", {
+      user_id: userId,
+      count: 6
     });
 
+    const data = timeline.map((t: any) => {
+      return { user: t.user, id: t.id, text: t.text }
+    })
 
     return res.status(200).send(data);
 

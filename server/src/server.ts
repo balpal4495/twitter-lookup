@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 import app from './app';
 
 // Start server

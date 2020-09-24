@@ -7,11 +7,12 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import './Search.css';
+import SearchIcon from '@material-ui/icons/Search';
 import { useCallback } from 'react';
 import { User } from '../../shared/types';
 import { searchByName } from '../../services/twitterApi';
 import { UserList } from '../UserList/UserList';
+import './Search.css';
 
 export const Search: React.FC<RouteComponentProps> = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -31,11 +32,12 @@ export const Search: React.FC<RouteComponentProps> = () => {
       }
     } else {
       setSearchErrorMessage(
-        'Please enter a business name before clicking search'
+        'Please enter a twitter user name before clicking search'
       );
       setIsProcessing(false);
     }
   }, [searchText]);
+
 
   const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsProcessing(false);
@@ -47,51 +49,66 @@ export const Search: React.FC<RouteComponentProps> = () => {
     <div className='App-Search'>
       <Grid container spacing={1} direction='row'>
         <Grid item xs={4}>
-          <Typography>
+          <Typography variant='h6' gutterBottom>
             Please enter the name of the users you are searching for
           </Typography>
         </Grid>
 
-        <Grid item xs={7}>
-          <Grid
-            container
-            direction='row'
-            justify='flex-start'
-            alignItems='flex-start'
-            spacing={1}
+        <Grid item xs={8}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSearchSubmit();
+            }}
           >
-            <TextField
-              data-testid='user-name-search'
-              inputProps={{ 'data-testid': 'user-name-search-input' }}
-              id='user-name-search'
-              label='User Name'
-              variant='outlined'
-              onChange={handleSearchOnChange}
-              value={searchText}
-              error={searchErrorMessage.length > 0}
-              helperText={searchErrorMessage}
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid item xs={1}>
-          <Grid container justify='flex-end' alignItems='flex-start'>
-            <Button
-              size='large'
-              variant='contained'
-              color='primary'
-              onClick={handleSearchSubmit}
+            <Grid
+              container
+              direction='row'
+              justify='flex-start'
+              alignItems='flex-start'
+              spacing={1}
             >
-              Search
-            </Button>
-          </Grid>
+              <Grid item xs={10}>
+                <TextField
+                  data-testid='user-name-search'
+                  inputProps={{ 'data-testid': 'user-name-search-input' }}
+                  id='user-name-search'
+                  label='User Name'
+                  variant='outlined'
+                  onChange={handleSearchOnChange}
+                  value={searchText}
+                  error={searchErrorMessage.length > 0}
+                  helperText={searchErrorMessage}
+                  size='small'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Grid
+                  alignItems='flex-end'
+                  justify='flex-end'
+                  alignContent='center'
+                >
+                  <Button
+                    type='submit'
+                    size='large'
+                    variant='contained'
+                    color='primary'
+                    onClick={handleSearchSubmit}
+                  >
+                    <SearchIcon />
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
       </Grid>
       {isProcessing && <LinearProgress />}
       <Grid container direction='row' justify='center'>
         <Grid item xs={12}>
           <div className='App-Search__user-list'>
-          {users.length > 0 && <UserList users={users} />}
+            {users.length > 0 && <UserList users={users} />}
           </div>
         </Grid>
       </Grid>
