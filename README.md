@@ -1,4 +1,4 @@
-# twitter-user-timeline-viewer
+# Twitter-user-timeline-viewer
 
 ## Summary
 
